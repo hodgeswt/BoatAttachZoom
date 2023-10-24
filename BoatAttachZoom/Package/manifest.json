@@ -1,6 +1,6 @@
 ﻿{
-  "name": "JotunnModStub",
-  "description": "",
+  "name": "BoatAttachZoom",
+  "description": "Allows passengers attached to boats to perform the full zoom out",
   "version_number": "0.0.1",
   "website_url": "",
   "dependencies": [

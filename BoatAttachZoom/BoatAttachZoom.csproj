@@ -102,7 +102,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enumerations.cs" />
     <Compile Include="Properties\IgnoreAccessModifiers.cs" />
     <Compile Include="BoatAttachZoom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

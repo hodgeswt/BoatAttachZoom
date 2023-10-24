@@ -4,8 +4,6 @@ using Jotunn.Entities;
 using Jotunn.Managers;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.UI;
-using static BoatAttachZoom.Enumerations;
 
 namespace BoatAttachZoom
 {
@@ -19,21 +17,41 @@ namespace BoatAttachZoom
 
         public static CustomLocalization Localization = LocalizationManager.Instance.GetLocalization();
 
+        public static float MaxDistance { get; set; }
+        public static bool ModifiedZoom { get; set; }
 
         private void Awake()
         {
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PluginGUID);
         }
 
-        [HarmonyPatch(typeof(InventoryGui), "OnSelectedRecipe")]
-        public static class InventoryGui_OnSelectedRecipe_Patch
+        [HarmonyPatch(typeof(GameCamera), nameof(GameCamera.UpdateCamera))]
+        public static class GameCameraUpdateCamera
         {
-            public static void Postfix(InventoryGui __instance)
+            public static void Prefix(GameCamera __instance, float dt)
             {
-                if (crafting)
+                Player player = Player.m_localPlayer;
+                if (!IsNull(player) && player.IsAttachedToShip())
                 {
+                    MaxDistance = __instance.m_maxDistance;
+                    __instance.m_maxDistance = __instance.m_maxDistanceBoat;
+                    ModifiedZoom = true;
                 }
             }
+
+            public static void Postfix(GameCamera __instance, float dt)
+            {
+                if (ModifiedZoom)
+                {
+                    __instance.m_maxDistance = MaxDistance;
+                    ModifiedZoom = false;
+                }
+            }
+        }
+
+        public static bool IsNull(object obj)
+        {
+            return (Object)obj == null;
         }
     }
 }
