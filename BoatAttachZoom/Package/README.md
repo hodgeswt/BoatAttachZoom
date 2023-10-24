@@ -1,4 +1,4 @@
-﻿# BoatAttachZoom
+# BoatAttachZoom
 Allows passengers attached to boats to perform the full zoom out
 
 ## Installation (manual)
